@@ -94,13 +94,7 @@ class Paginator {
 		this.itemContainer.innerHTML = items.join("");
 	}
 	/**
-	 * pageContainer에 할당합니다.
-	 * @description #paginatorFirst <<버튼
-	 * @description #paginatorPrev <버튼
-	 * @description #paginatorNext >버튼
-	 * @description #paginatorLast >>버튼
-	 * @description .paginatorItem 페이지 아이템
-	 * @description .active 선택된 페이지 아이템
+	 * pageContainer에 버튼리스트를 할당합니다.
 	 */
 	_pagination() {
 		this.pageContainer.innerHTML = "";

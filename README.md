@@ -30,3 +30,49 @@ const paginator = new Paginator({
 paginator.page = 5; // then change itemContainer
 ```
 
+# Allocate CSS
+
+> `<<` Button
+
+```css
+.paginatorFirst {
+	/* custom */
+}
+```
+
+> `<` Button
+
+```css
+.paginatorPrev {
+	/* custom */
+}
+```
+
+> `>` Button
+
+```css
+.paginatorNext {
+	/* custom */
+}
+```
+
+> `>>` Button
+
+```css
+.paginatorLast {
+	/* custom */
+}
+```
+
+> `Number` Button
+
+```css
+.paginatorItem {
+	/* custom */
+}
+
+/* Now Page */
+.active {
+	/* custom */
+}
+```
