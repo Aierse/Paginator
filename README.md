@@ -8,10 +8,14 @@ Just Download [Paginator.js](https://github.com/Aierse/Paginator/blob/main/src/P
 
 # Quick Start
 
+> Just you have to itemContainer and PageContainer
+
 ```html
 <div class="pageBody"></div>
 <div class="pageFooter"></div>
 ```
+
+> Paginator constructor does auto initialize.
 
 ```js
 const source = [1, 2, 3, 4, 5];
@@ -76,3 +80,7 @@ paginator.page = 5; // then change itemContainer
 	/* custom */
 }
 ```
+
+# Sample
+
+> If you want all of sample code [Click Here](https://github.com/Aierse/Paginator/blob/main/sample.html)
