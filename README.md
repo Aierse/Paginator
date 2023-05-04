@@ -34,7 +34,7 @@ const paginator = new Paginator({
 paginator.page = 5; // then change itemContainer
 ```
 
-# Allocate CSS
+# Apply CSS
 
 > `<<` Button
 
