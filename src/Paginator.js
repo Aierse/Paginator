@@ -2,15 +2,16 @@
  * 페이지네이션을 적용해주는 클래스입니다.
  *
  * @example
- * const paginator = new Paginator(
- *      document.querySelector("pageContainer"),
- *      document.querySelector("itemContainer"),
- *      100,
- *      (i) => htmlCode[i])
+ * const paginator = new Paginator({
+ * 		itemContainer: ".pageBody",
+ *		pageContainer: ".pageFooter",
+ *		data: html,
+ *		callback: (data) => `<div>test${data}</div>`,
+ * }
  *
- * @constructor
- * @param {HTMLElement} pageContainer 페이지 번호를 할당할 컨테이너
- * @param {HTMLElement} itemContainer Item을 할당할 컨테이너
+ * @constructor option
+ * @param {string} itemContainer - document.querySelector(itemContainer) Item을 할당할 컨테이너
+ * @param {string} pageContainer - document.querySelector(pageContainer) 페이지 번호를 할당할 컨테이너
  * @param {number} length 페이지네이션 처리할 Item의 길이
  * @param {function} callback Item[i]를 받아 itemContainer에 할당합니다.
  */
@@ -19,8 +20,8 @@ class Paginator {
 		this.pageSize = option.pageSize || 10;
 		this.itemSize = option.itemSize || 10;
 
-		this.itemContainer = option.itemContainer;
-		this.pageContainer = option.pageContainer;
+		this.itemContainer = document.querySelector(option.itemContainer);
+		this.pageContainer = document.querySelector(option.pageContainer);
 
 		this.data = option.data;
 		this.callback = option.callback;
