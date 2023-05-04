@@ -2,6 +2,9 @@
 
 > this is vanilla javascript that provides simple customizable pagination.
 
+![image](https://user-images.githubusercontent.com/68111814/236253290-de985669-5d1c-4220-9fe9-9e74ac977b18.png)
+
+
 # Installation
 
 Just Download [Paginator.js](https://github.com/Aierse/Paginator/blob/main/src/Paginator.js) from the Git Repository
