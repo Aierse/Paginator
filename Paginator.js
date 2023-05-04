@@ -21,7 +21,8 @@ class Paginator {
 
 		this.itemContainer = option.itemContainer;
 		this.pageContainer = option.pageContainer;
-		this.length = option.length;
+
+		this.data = option.data;
 		this.callback = option.callback;
 
 		this.page = 1;
@@ -39,21 +40,22 @@ class Paginator {
 	 * paginator.page = 5 // then change pageContainer
 	 */
 	set page(value) {
-		this._page = value < this.min ? this.min : value > this.max ? this.max : value;
+		this._page = value < this._min ? this._min : value > this._max ? this._max : value;
 		this._show(this.page);
 		this._pagination();
 	}
 	/**
-	 * 페이지가 가질 수 있는 최소 값으로 언제나 1을 반환합니다.
-	 *
+	 * 데이터의 길이
 	 */
-	get min() {
+	get length() {
+		return this.data.length;
+	}
+
+	get _min() {
 		return 1;
 	}
-	/**
-	 * 페이지가 가질 수 있는 최대 값
-	 */
-	get max() {
+
+	get _max() {
 		return this.length % this.itemSize === 0 ? this.length / this.itemSize : Math.ceil(this.length / this.itemSize);
 	}
 	/**
@@ -63,7 +65,7 @@ class Paginator {
 	 */
 	get _first() {
 		const temp = Math.floor((this.page - 1) / this.pageSize) * this.pageSize + 1;
-		return temp <= this.min ? this.min : temp;
+		return temp <= this._min ? this._min : temp;
 	}
 	/**
 	 * 현재 등장한 페이지버튼의 마지막 값
@@ -72,24 +74,20 @@ class Paginator {
 	 */
 	get _last() {
 		const temp = this._first + this.pageSize - 1;
-		return temp > this.max ? this.max : temp;
+		return temp > this._max ? this._max : temp;
 	}
 	/**
-	 * this.callback의 값으로 itemContainer를 채움
-	 * @description 콜백으로 리턴되는 값은 반드시 html 코드여야 함
+	 * this.callback의 값으로 itemContainer를 채웁니다.
+	 * @description 콜백으로 리턴되는 값은 html 코드여야합니다.
 	 * @example
-	 * html = [
-	 *   "<tr><td>1</td><td>요소</td></tr>",
-	 *   "<tr><td>2</td><td>요소</td></tr>",
-	 *   "<tr><td>3</td><td>요소</td></tr>"
-	 * ]
-	 * this.callback = (i) => (html[i])
+	 * dataList = [1, 2, 3, 4, 5]
+	 * this.callback = (target) => (`<div>Explain ${target}</div>`)
 	 */
 	_show() {
 		const items = [];
 
 		for (let i = (this.page - 1) * this.itemSize; i < this.page * this.itemSize; i++) {
-			items.push(this.callback(i));
+			items.push(this.callback(this.data[i]));
 		}
 
 		this.itemContainer.innerHTML = items.join("");
@@ -142,7 +140,7 @@ class Paginator {
 			html.push(pageButton);
 		}
 
-		if (this._last < this.max) {
+		if (this._last < this._max) {
 			const next = document.createElement("a");
 			const last = document.createElement("a");
 
@@ -153,7 +151,7 @@ class Paginator {
 			last.innerHTML = ">>";
 
 			next.onclick = (e) => (self.page = self._last + 1);
-			last.onclick = (e) => (self.page = self.max);
+			last.onclick = (e) => (self.page = self._max);
 
 			html.push(next);
 			html.push(last);
