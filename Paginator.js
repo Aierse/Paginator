@@ -17,14 +17,14 @@
 class Paginator {
 	static _instance = undefined;
 
-	constructor(pageContainer, itemContainer, length, callback, pageSize = 10, itemSize = 10) {
-		this.pageSize = pageSize;
-		this.itemSize = itemSize;
+	constructor(option) {
+		this.pageSize = option.pageSize || 10;
+		this.itemSize = option.itemSize || 10;
 
-		this.itemContainer = itemContainer;
-		this.pageContainer = pageContainer;
-		this.length = length;
-		this.callback = callback;
+		this.itemContainer = option.itemContainer;
+		this.pageContainer = option.pageContainer;
+		this.length = option.length;
+		this.callback = option.callback;
 
 		this.page = 1;
 
