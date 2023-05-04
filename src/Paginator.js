@@ -8,14 +8,17 @@
  *		data: html,
  *		callback: (data) => `<div>test${data}</div>`,
  * }
- *
- * @constructor option
- * @param {string} itemContainer - document.querySelector(itemContainer) Item을 할당할 컨테이너
- * @param {string} pageContainer - document.querySelector(pageContainer) 페이지 번호를 할당할 컨테이너
- * @param {number} length 페이지네이션 처리할 Item의 길이
- * @param {function} callback Item[i]를 받아 itemContainer에 할당합니다.
  */
 class Paginator {
+	/**
+	 * @param {Object} option
+	 * @param {string} option.itemContainer
+	 * @param {string} option.pageContainer
+	 * @param {any[]} option.data
+	 * @param {function} option.callback
+	 * @param {int} [option.pageSize=10]
+	 * @param {int} [option.itemSize=10]
+	 */
 	constructor(option) {
 		this.pageSize = option.pageSize || 10;
 		this.itemSize = option.itemSize || 10;
@@ -28,9 +31,6 @@ class Paginator {
 
 		this.page = 1;
 	}
-	/**
-	 * 현재 페이지 번호
-	 */
 	get page() {
 		return this._page;
 	}
@@ -38,7 +38,7 @@ class Paginator {
 	 * 현재 페이지를 수정하면 화면이 전환됩니다.
 	 * page의 값은 min과 max의 사이입니다.
 	 * @example
-	 * paginator.page = 5 // then change pageContainer
+	 * instance.page = 5 // then change pageContainer
 	 */
 	set page(value) {
 		this._page = value < this._min ? this._min : value > this._max ? this._max : value;
@@ -60,18 +60,14 @@ class Paginator {
 		return this.length % this.itemSize === 0 ? this.length / this.itemSize : Math.ceil(this.length / this.itemSize);
 	}
 	/**
-	 * 현재 등장한 페이지버튼의 첫번째 값
-	 * @example 현재 페이지가 3이고, pageSize가 5일 경우 페이지버튼은 1 ~ 5가 등장하므로 _first는 1을 반환함
-	 * @example 현재 페이지가 7이고, pageSize가 5일 경우 페이지버튼은 6 ~ 10이 등장하므로 _first는 6을 반환함
+	 * 현재 등장한 페이지버튼의 첫번째 값, 내부 연산에서 사용됨.
 	 */
 	get _first() {
 		const temp = Math.floor((this.page - 1) / this.pageSize) * this.pageSize + 1;
 		return temp <= this._min ? this._min : temp;
 	}
 	/**
-	 * 현재 등장한 페이지버튼의 마지막 값
-	 * @example 현재 페이지가 3이고, pageSize가 5일 경우 페이지버튼은 1 ~ 5가 등장하므로 _last는 5을 반환함
-	 * @example 현재 페이지가 7이고, pageSize가 5일 경우 페이지버튼은 6 ~ 10이 등장하므로 _last는 10을 반환함
+	 * 현재 등장한 페이지버튼의 마지막 값, 내부 연산에서 사용됨.
 	 */
 	get _last() {
 		const temp = this._first + this.pageSize - 1;
@@ -79,7 +75,7 @@ class Paginator {
 	}
 	/**
 	 * this.callback의 값으로 itemContainer를 채웁니다.
-	 * @description 콜백으로 리턴되는 값은 html 코드여야합니다.
+	 * 콜백으로 리턴되는 값은 html 코드여야합니다.
 	 * @example
 	 * dataList = [1, 2, 3, 4, 5]
 	 * this.callback = (target) => (`<div>Explain ${target}</div>`)
