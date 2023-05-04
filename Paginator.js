@@ -15,8 +15,6 @@
  * @param {function} callback Item[i]를 받아 itemContainer에 할당합니다.
  */
 class Paginator {
-	static _instance = undefined;
-
 	constructor(option) {
 		this.pageSize = option.pageSize || 10;
 		this.itemSize = option.itemSize || 10;
@@ -27,8 +25,6 @@ class Paginator {
 		this.callback = option.callback;
 
 		this.page = 1;
-
-		Paginator._instance = this;
 	}
 	/**
 	 * 현재 페이지 번호
@@ -99,32 +95,72 @@ class Paginator {
 		this.itemContainer.innerHTML = items.join("");
 	}
 	/**
-	 * pageSize와 itemSize를 계산해 버튼 생성
-	 * @description #firstPrev <<버튼
-	 * @description #prev <버튼
-	 * @description #next >버튼
-	 * @description #lastNext >>버튼
-	 * @description .pageItem 페이지 아이템
+	 * pageContainer에 할당합니다.
+	 * @description #paginatorFirst <<버튼
+	 * @description #paginatorPrev <버튼
+	 * @description #paginatorNext >버튼
+	 * @description #paginatorLast >>버튼
+	 * @description .paginatorItem 페이지 아이템
 	 * @description .active 선택된 페이지 아이템
 	 */
 	_pagination() {
+		this.pageContainer.innerHTML = "";
+		const self = this;
 		const html = [];
 
 		if (this._first > this.pageSize) {
-			html.push(`<a href="javascript:void(0)" class='paginatorFirst' onclick="Paginator._instance.page = 1"><<</a>`);
-			html.push(`<a href="javascript:void(0)" class='paginatorPrev' onclick="Paginator._instance.page = Paginator._instance._first - 1"><</a>`);
+			const first = document.createElement("a");
+			const prev = document.createElement("a", "class=paginatorPrev");
+
+			first.setAttribute("class", "paginatorFirst");
+			prev.setAttribute("class", "paginatorPrev");
+
+			first.innerHTML = "<<";
+			prev.innerHTML = "<";
+
+			first.onclick = (e) => (self.page = 1);
+			prev.onclick = (e) => (self.page = self._first - 1);
+
+			html.push(first);
+			html.push(prev);
 		}
 
 		for (let i = this._first; i <= this._last; i++) {
-			if (this.page === i) html.push(`<a href='javascript:void(0)' class='pageItem active'>${i}</a>`);
-			else html.push(`<a href='javascript:void(0)' class='paginatorItem' onclick="Paginator._instance.page = ${i}">${i}</a>`);
+			let pageButton = undefined;
+			if (this.page === i) {
+				pageButton = document.createElement("a");
+				pageButton.setAttribute("class", "paginatorItem active");
+			} else {
+				pageButton = document.createElement("a");
+				pageButton.setAttribute("class", "paginatorItem");
+			}
+
+			pageButton.innerHTML = i;
+
+			pageButton.onclick = (e) => (self.page = i);
+
+			html.push(pageButton);
 		}
 
 		if (this._last < this.max) {
-			html.push(`<a href="javascript:void(0)" class='paginatorNext' onclick="Paginator._instance.page = Paginator._instance._last + 1">></a>`);
-			html.push(`<a href="javascript:void(0)" class='paginatorLast' onclick="Paginator._instance.page = Paginator._instance.max">>></a>`);
+			const next = document.createElement("a");
+			const last = document.createElement("a");
+
+			next.setAttribute("class", "paginatorNext");
+			last.setAttribute("class", "paginatorLast");
+
+			next.innerHTML = ">";
+			last.innerHTML = ">>";
+
+			next.onclick = (e) => (self.page = self._last + 1);
+			last.onclick = (e) => (self.page = self.max);
+
+			html.push(next);
+			html.push(last);
 		}
 
-		this.pageContainer.innerHTML = html.join("");
+		html.forEach((v) => {
+			this.pageContainer.appendChild(v);
+		});
 	}
 }
