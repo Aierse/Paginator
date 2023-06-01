@@ -82,8 +82,9 @@ class Paginator {
 	 */
 	_show() {
 		const items = [];
+		const size = this.length < this.page * this.itemSize ? this.length : this.page * this.itemSize;
 
-		for (let i = (this.page - 1) * this.itemSize; i < this.page * this.itemSize; i++) {
+		for (let i = (this.page - 1) * this.itemSize; i < size; i++) {
 			items.push(this.callback(this.data[i]));
 		}
 
