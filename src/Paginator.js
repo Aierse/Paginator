@@ -41,7 +41,7 @@ class Paginator {
 	 * instance.page = 5 // then change pageContainer
 	 */
 	set page(value) {
-		this._page = value < this._min ? this._min : value > this._max ? this._max : value;
+		this._page = value <= this._min ? this._min : value > this._max ? this._max : value;
 		this._show(this.page);
 		this._pagination();
 	}
