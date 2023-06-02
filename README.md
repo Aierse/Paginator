@@ -7,11 +7,13 @@
 
 # Installation
 
-Just Download [Paginator.js](https://github.com/Aierse/Paginator/blob/main/src/Paginator.js) from the Git Repository
+1. Just Download [Paginator.js](https://github.com/Aierse/Paginator/blob/main/src/Paginator.js) from the Git Repository
+2. add Code <script src="https://aierse.github.io/PaginatorJS/src/Paginator.js"></script>
 
 # Quick Start
 
 > Just you have to itemContainer and PageContainer
+
 
 ```html
 <div class="pageBody"></div>
