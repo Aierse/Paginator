@@ -100,10 +100,10 @@ class Paginator {
 
 		if (this._first > this.pageSize) {
 			const first = document.createElement("a");
-			const prev = document.createElement("a", "class=paginatorPrev");
+			const prev = document.createElement("a");
 
-			first.setAttribute("class", "paginatorFirst");
-			prev.setAttribute("class", "paginatorPrev");
+			first.setAttribute("class", "paginatorItem first");
+			prev.setAttribute("class", "paginatorItem prev");
 
 			first.innerHTML = "<<";
 			prev.innerHTML = "<";
@@ -119,10 +119,10 @@ class Paginator {
 			let pageButton = undefined;
 			if (this.page === i) {
 				pageButton = document.createElement("a");
-				pageButton.setAttribute("class", "paginatorItem active");
+				pageButton.setAttribute("class", "paginatorItem number active");
 			} else {
 				pageButton = document.createElement("a");
-				pageButton.setAttribute("class", "paginatorItem");
+				pageButton.setAttribute("class", "paginatorItem number");
 			}
 
 			pageButton.innerHTML = i;
@@ -136,8 +136,8 @@ class Paginator {
 			const next = document.createElement("a");
 			const last = document.createElement("a");
 
-			next.setAttribute("class", "paginatorNext");
-			last.setAttribute("class", "paginatorLast");
+			next.setAttribute("class", "paginatorItem next");
+			last.setAttribute("class", "paginatorItem last");
 
 			next.innerHTML = ">";
 			last.innerHTML = ">>";
