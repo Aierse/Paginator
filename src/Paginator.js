@@ -57,6 +57,8 @@ class Paginator {
 	}
 
 	get _max() {
+		if (this.length === 0)
+			return 1;
 		return this.length % this.itemSize === 0 ? this.length / this.itemSize : Math.ceil(this.length / this.itemSize);
 	}
 	/**
