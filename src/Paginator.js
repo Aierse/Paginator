@@ -28,6 +28,7 @@ class Paginator {
 
 		this.data = option.data;
 		this.callback = option.callback;
+		this.paginationCallback = option.paginationCallback || undefined;
 
 		this.page = 1;
 	}
@@ -75,6 +76,13 @@ class Paginator {
 		const temp = this._first + this.pageSize - 1;
 		return temp > this._max ? this._max : temp;
 	}
+	
+	get _currentItems() {
+		const currentStart = (this.page - 1) * this.itemSize;
+		const currentLast = this.length < this.page * this.itemSize ? this.length : this.page * this.itemSize;
+
+		return this.data.slice(currentStart, currentLast);
+	}
 	/**
 	 * this.callback의 값으로 itemContainer를 채웁니다.
 	 * 콜백으로 리턴되는 값은 html 코드여야합니다.
@@ -110,8 +118,16 @@ class Paginator {
 			first.innerHTML = "<<";
 			prev.innerHTML = "<";
 
-			first.onclick = (e) => (self.page = 1);
-			prev.onclick = (e) => (self.page = self._first - 1);
+			first.onclick = ((e) => {
+				self.page = 1;
+
+				if (this.paginationCallback instanceof Function) this.paginationCallback(this._currentItems);
+			});
+			prev.onclick = ((e) => {
+				self.page = self._first - 1;
+
+				if (this.paginationCallback instanceof Function) this.paginationCallback(this._currentItems);
+			});
 
 			html.push(first);
 			html.push(prev);
@@ -129,7 +145,11 @@ class Paginator {
 
 			pageButton.innerHTML = i;
 
-			pageButton.onclick = (e) => (self.page = i);
+			pageButton.onclick = ((e) => {
+				self.page = i;
+
+				if (this.paginationCallback instanceof Function) this.paginationCallback(this._currentItems);
+			});
 
 			html.push(pageButton);
 		}
@@ -144,8 +164,16 @@ class Paginator {
 			next.innerHTML = ">";
 			last.innerHTML = ">>";
 
-			next.onclick = (e) => (self.page = self._last + 1);
-			last.onclick = (e) => (self.page = self._max);
+			next.onclick = ((e) => {
+				self.page = self._last + 1
+
+				if (this.paginationCallback instanceof Function) this.paginationCallback(this._currentItems);
+			});
+			last.onclick = ((e) => {
+				self.page = self._max;
+
+				if (this.paginationCallback instanceof Function) this.paginationCallback(this._currentItems);
+			});
 
 			html.push(next);
 			html.push(last);
